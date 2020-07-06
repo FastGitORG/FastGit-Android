@@ -10,6 +10,9 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+
+import com.fastaccess.data.dao.SettingsModel;
+import com.fastaccess.ui.modules.settings.category.SettingsCategoryActivity;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -251,6 +254,15 @@ public abstract class BaseActivity<V extends BaseMvp.FAView, P extends BasePrese
 
     @Override public void onOpenSettings() {
         startActivityForResult(new Intent(this, SettingsActivity.class), BundleConstant.REFRESH_CODE);
+    }
+
+    @Override public void onOpenFastGitSettings() {
+        Intent intent = new Intent(this, SettingsCategoryActivity.class);
+        intent.putExtras(Bundler.start()
+                .put(BundleConstant.ITEM, SettingsModel.FASTGIT)
+                .put(BundleConstant.EXTRA, getString(R.string.fastgit_settings))
+                .end());
+        startActivity(intent);
     }
 
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {

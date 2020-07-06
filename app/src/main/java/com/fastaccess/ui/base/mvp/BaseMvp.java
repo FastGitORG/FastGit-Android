@@ -44,6 +44,8 @@ public interface BaseMvp {
 
         void onOpenSettings();
 
+        void onOpenFastGitSettings();
+
         boolean isEnterprise();
 
         void onOpenUrlInBrowser();

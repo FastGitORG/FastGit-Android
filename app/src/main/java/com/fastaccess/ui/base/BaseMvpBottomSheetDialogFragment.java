@@ -131,6 +131,10 @@ public abstract class BaseMvpBottomSheetDialogFragment<V extends BaseMvp.FAView,
         callback.onOpenSettings();
     }
 
+    @Override public void onOpenFastGitSettings() {
+        callback.onOpenFastGitSettings();
+    }
+
     @Override public void onScrollTop(int index) {
 
     }

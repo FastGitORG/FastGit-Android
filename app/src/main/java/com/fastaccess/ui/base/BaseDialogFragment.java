@@ -167,6 +167,10 @@ public abstract class BaseDialogFragment<V extends BaseMvp.FAView, P extends Bas
         callback.onOpenSettings();
     }
 
+    @Override public void onOpenFastGitSettings() {
+        callback.onOpenFastGitSettings();
+    }
+
     @Override public void onDestroyView() {
         super.onDestroyView();
         if (unbinder != null) unbinder.unbind();

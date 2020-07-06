@@ -30,7 +30,7 @@ public class SettingsCategoryActivity extends BaseActivity implements SettingsCa
     }
 
     @Override protected boolean isSecured() {
-        return false;
+        return true;
     }
 
     @Override protected void onCreate(Bundle savedInstanceState) {

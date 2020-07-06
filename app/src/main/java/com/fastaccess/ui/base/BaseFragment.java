@@ -135,6 +135,10 @@ public abstract class BaseFragment<V extends BaseMvp.FAView, P extends BasePrese
         callback.onOpenSettings();
     }
 
+    @Override public void onOpenFastGitSettings() {
+        callback.onOpenFastGitSettings();
+    }
+
     @Override public void onScrollTop(int index) {}
 
     @Override public boolean isEnterprise() {

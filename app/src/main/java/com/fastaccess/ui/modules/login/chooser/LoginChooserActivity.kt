@@ -59,6 +59,10 @@ class LoginChooserActivity : BaseActivity<LoginChooserMvp.View, LoginChooserPres
         }
     }
 
+    @OnClick(R.id.fastgit_setting) fun onFastGitSettingClicked() {
+        this.onOpenFastGitSettings()
+    }
+
     @OnClick(R.id.basicAuth) fun onBasicAuthClicked() {
         LoginActivity.start(this, true)
     }

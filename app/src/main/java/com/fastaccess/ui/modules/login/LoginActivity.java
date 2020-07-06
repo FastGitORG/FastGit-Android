@@ -83,6 +83,10 @@ public class LoginActivity extends BaseActivity<LoginMvp.View, LoginPresenter> i
         activity.finish();
     }
 
+    @OnClick(R.id.fastgit_setting) public void onFastGitSettingClicked() {
+        this.onOpenFastGitSettings();
+    }
+
     @OnClick(R.id.browserLogin) void onOpenBrowser() {
         if (isEnterprise()) {
             MessageDialogView.newInstance(getString(R.string.warning), getString(R.string.github_enterprise_reply),
