@@ -6,6 +6,7 @@ import androidx.preference.PreferenceManager;
 
 import com.fastaccess.data.dao.model.Models;
 import com.fastaccess.helper.DeviceNameGetter;
+import com.fastaccess.helper.PrefGetter;
 import com.fastaccess.helper.TypeFaceHelper;
 import com.fastaccess.provider.colors.ColorsProvider;
 import com.fastaccess.provider.emoji.EmojiManager;
@@ -49,6 +50,9 @@ public class App extends Application {
         deleteDatabase("database.db");
         getDataStore();
         setupPreference();
+        // enable all features
+        PrefGetter.setProItems();
+        PrefGetter.setEnterpriseItem();
         TypeFaceHelper.generateTypeface(this);
         NotificationSchedulerJobTask.scheduleJob(this);
         Shortbread.create(this);
