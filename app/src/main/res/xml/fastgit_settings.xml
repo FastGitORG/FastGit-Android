@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:defaultValue="0"
+        android:dialogTitle="@string/fastgit_proxy_title"
+        android:entries="@array/fastgit_proxy_mode"
+        android:entryValues="@array/fastgit_proxy_mode_values"
+        android:icon="@drawable/ic_vpn_key"
+        android:key="fastgitProxyMode"
+        android:summary="@string/fastgit_proxy_summary"
+        android:title="@string/fastgit_proxy_title" />
+
+    <EditTextPreference
+        android:key="fastgitSniproxyDnsAddress"
+        android:summary="@string/fastgit_sniproxy_domain_summary"
+        android:title="@string/fastgit_sniproxy_domain" />
+
+    <EditTextPreference
+        android:key="fastgitSniproxyIpPool"
+        android:summary="@string/fastgit_sniproxy_ip_pool_summary"
+        android:title="@string/fastgit_sniproxy_ip_pool" />
+
+</PreferenceScreen>

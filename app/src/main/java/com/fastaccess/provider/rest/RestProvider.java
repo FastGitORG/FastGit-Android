@@ -30,6 +30,7 @@ import com.fastaccess.provider.rest.converters.GithubResponseConverter;
 import com.fastaccess.provider.rest.interceptors.AuthenticationInterceptor;
 import com.fastaccess.provider.rest.interceptors.ContentTypeInterceptor;
 import com.fastaccess.provider.rest.interceptors.PaginationInterceptor;
+import com.fastaccess.provider.rest.resolvers.FastGitDns;
 import com.fastaccess.provider.scheme.LinkParserHelper;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -40,6 +41,7 @@ import java.lang.reflect.Modifier;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
@@ -73,6 +75,7 @@ public class RestProvider {
                 client.addInterceptor(new HttpLoggingInterceptor()
                         .setLevel(HttpLoggingInterceptor.Level.BODY));
             }
+            client.dns(new FastGitDns());
             client.addInterceptor(new AuthenticationInterceptor());
             client.addInterceptor(new PaginationInterceptor());
             client.addInterceptor(new ContentTypeInterceptor());
@@ -131,43 +134,53 @@ public class RestProvider {
         return -1;
     }
 
-    @NonNull public static UserRestService getUserService(boolean enterprise) {
+    @NonNull
+    public static UserRestService getUserService(boolean enterprise) {
         return provideRetrofit(enterprise).create(UserRestService.class);
     }
 
-    @NonNull public static GistService getGistService(boolean enterprise) {
+    @NonNull
+    public static GistService getGistService(boolean enterprise) {
         return provideRetrofit(enterprise).create(GistService.class);
     }
 
-    @NonNull public static RepoService getRepoService(boolean enterprise) {
+    @NonNull
+    public static RepoService getRepoService(boolean enterprise) {
         return provideRetrofit(enterprise).create(RepoService.class);
     }
 
-    @NonNull public static IssueService getIssueService(boolean enterprise) {
+    @NonNull
+    public static IssueService getIssueService(boolean enterprise) {
         return provideRetrofit(enterprise).create(IssueService.class);
     }
 
-    @NonNull public static PullRequestService getPullRequestService(boolean enterprise) {
+    @NonNull
+    public static PullRequestService getPullRequestService(boolean enterprise) {
         return provideRetrofit(enterprise).create(PullRequestService.class);
     }
 
-    @NonNull public static NotificationService getNotificationService(boolean enterprise) {
+    @NonNull
+    public static NotificationService getNotificationService(boolean enterprise) {
         return provideRetrofit(enterprise).create(NotificationService.class);
     }
 
-    @NonNull public static ReactionsService getReactionsService(boolean enterprise) {
+    @NonNull
+    public static ReactionsService getReactionsService(boolean enterprise) {
         return provideRetrofit(enterprise).create(ReactionsService.class);
     }
 
-    @NonNull public static OrganizationService getOrgService(boolean enterprise) {
+    @NonNull
+    public static OrganizationService getOrgService(boolean enterprise) {
         return provideRetrofit(enterprise).create(OrganizationService.class);
     }
 
-    @NonNull public static ReviewService getReviewService(boolean enterprise) {
+    @NonNull
+    public static ReviewService getReviewService(boolean enterprise) {
         return provideRetrofit(enterprise).create(ReviewService.class);
     }
 
-    @NonNull public static UserRestService getContribution() {
+    @NonNull
+    public static UserRestService getContribution() {
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.REST_URL)
                 .addConverterFactory(new GithubResponseConverter(gson))
@@ -176,11 +189,13 @@ public class RestProvider {
                 .create(UserRestService.class);
     }
 
-    @NonNull public static SearchService getSearchService(boolean enterprise) {
+    @NonNull
+    public static SearchService getSearchService(boolean enterprise) {
         return provideRetrofit(enterprise).create(SearchService.class);
     }
 
-    @NonNull public static SlackService getSlackService() {
+    @NonNull
+    public static SlackService getSlackService() {
         return new Retrofit.Builder()
                 .baseUrl("https://ok13pknpj4.execute-api.eu-central-1.amazonaws.com/prod/")
                 .addConverterFactory(new GithubResponseConverter(gson))
@@ -189,15 +204,18 @@ public class RestProvider {
                 .create(SlackService.class);
     }
 
-    @NonNull public static ContentService getContentService(boolean enterprise) {
+    @NonNull
+    public static ContentService getContentService(boolean enterprise) {
         return provideRetrofit(enterprise).create(ContentService.class);
     }
 
-    @NonNull public static ProjectsService getProjectsService(boolean enterprise) {
+    @NonNull
+    public static ProjectsService getProjectsService(boolean enterprise) {
         return provideRetrofit(enterprise).create(ProjectsService.class);
     }
 
-    @Nullable public static GitHubErrorResponse getErrorResponse(@NonNull Throwable throwable) {
+    @Nullable
+    public static GitHubErrorResponse getErrorResponse(@NonNull Throwable throwable) {
         ResponseBody body = null;
         if (throwable instanceof HttpException) {
             body = ((HttpException) throwable).response().errorBody();
@@ -205,12 +223,14 @@ public class RestProvider {
         if (body != null) {
             try {
                 return gson.fromJson(body.string(), GitHubErrorResponse.class);
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
         return null;
     }
 
-    @NonNull public static Observable<GitHubStatusModel> gitHubStatus() {
+    @NonNull
+    public static Observable<GitHubStatusModel> gitHubStatus() {
         return new Retrofit.Builder()
                 .baseUrl("https://kctbh9vrtdwd.statuspage.io/")
                 .client(provideOkHttpClient())

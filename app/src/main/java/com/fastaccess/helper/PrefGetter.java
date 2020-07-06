@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.media.RingtoneManager;
 import android.net.Uri;
+
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.fastaccess.App;
 import com.fastaccess.BuildConfig;
 import com.fastaccess.R;
+import com.google.common.base.Strings;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -51,7 +53,9 @@ public class PrefGetter {
             MID_NIGHT_BLUE,
             BLUISH
     })
-    @Retention(RetentionPolicy.SOURCE) public @interface ThemeType {}
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ThemeType {
+    }
 
     @IntDef({
             RED,
@@ -71,7 +75,9 @@ public class PrefGetter {
             ORANGE,
             DEEP_ORANGE
     })
-    @Retention(RetentionPolicy.SOURCE) @interface ThemeColor {}
+    @Retention(RetentionPolicy.SOURCE)
+    @interface ThemeColor {
+    }
 
 
     private static final String WHATS_NEW_VERSION = "whats_new";
@@ -150,7 +156,8 @@ public class PrefGetter {
         PrefHelper.clearPrefs();
     }
 
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted") public static boolean isUserIconGuideShowed() {
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean isUserIconGuideShowed() {
         boolean isShowed = PrefHelper.getBoolean(USER_ICON_GUIDE);
         PrefHelper.set(USER_ICON_GUIDE, true);
         return isShowed;
@@ -256,7 +263,8 @@ public class PrefGetter {
         return PrefHelper.getBoolean("rect_avatar");
     }
 
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted") public static boolean isMarkAsReadEnabled() {
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean isMarkAsReadEnabled() {
         return PrefHelper.getBoolean("markNotificationAsRead");
     }
 
@@ -272,19 +280,23 @@ public class PrefGetter {
         return PrefHelper.getBoolean(SENT_VIA_BOX);
     }
 
-    @ThemeType public static int getThemeType(@NonNull Context context) {
+    @ThemeType
+    public static int getThemeType(@NonNull Context context) {
         return getThemeType(context.getResources());
     }
 
-    @ThemeType public static int getThemeType() {
+    @ThemeType
+    public static int getThemeType() {
         return getThemeType(App.getInstance().getResources());
     }
 
-    @ThemeColor public static int getThemeColor(@NonNull Context context) {
+    @ThemeColor
+    public static int getThemeColor(@NonNull Context context) {
         return getThemeColor(context.getResources());
     }
 
-    @ThemeType static int getThemeType(@NonNull Resources resources) {
+    @ThemeType
+    static int getThemeType(@NonNull Resources resources) {
         String appTheme = PrefHelper.getString("appTheme");
         if (!InputHelper.isEmpty(appTheme)) {
             if (appTheme.equalsIgnoreCase(resources.getString(R.string.dark_theme_mode))) {
@@ -302,7 +314,8 @@ public class PrefGetter {
         return LIGHT;
     }
 
-    @ThemeColor private static int getThemeColor(@NonNull Resources resources) {
+    @ThemeColor
+    private static int getThemeColor(@NonNull Resources resources) {
         String appColor = PrefHelper.getString("appColor");
         return getThemeColor(resources, appColor);
     }
@@ -346,7 +359,8 @@ public class PrefGetter {
         return BLUE;
     }
 
-    @NonNull public static String getAppLanguage() {
+    @NonNull
+    public static String getAppLanguage() {
         String appLanguage = PrefHelper.getString(APP_LANGUAGE);
         return appLanguage == null ? "en" : appLanguage;
     }
@@ -363,7 +377,8 @@ public class PrefGetter {
         }
     }
 
-    @Nullable public static String getProfileBackgroundUrl() {
+    @Nullable
+    public static String getProfileBackgroundUrl() {
         return PrefHelper.getString(PROFILE_BACKGROUND_URL);
     }
 
@@ -377,6 +392,18 @@ public class PrefGetter {
 
     public static boolean isNotificationSoundEnabled() {
         return PrefHelper.getBoolean("notificationSound");
+    }
+
+    public static String getFastGitProxyMode() {
+        return PrefHelper.getString("fastgitProxyMode");
+    }
+
+    public static String getFastgitSniproxyDnsAddress() {
+        return PrefHelper.getString("fastgitSniproxyDnsAddress");
+    }
+
+    public static String getFastgitSniproxyIpPool() {
+        return PrefHelper.getString("fastgitSniproxyIpPool");
     }
 
     public static void enableAmlodTheme() {
@@ -460,7 +487,8 @@ public class PrefGetter {
         PrefGetter.setEnterpriseUrl(null);
     }
 
-    @Nullable public static Uri getNotificationSound() {
+    @Nullable
+    public static Uri getNotificationSound() {
         String nsp = PrefHelper.getString(NOTIFICATION_SOUND_PATH);
         return !InputHelper.isEmpty(nsp) ? Uri.parse(nsp) : RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     }

@@ -8,10 +8,14 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+
 import android.util.Log;
 import android.widget.Toast;
 
@@ -45,6 +49,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Function;
 
 import es.dmoral.toasty.Toasty;
 import io.reactivex.Observable;
@@ -58,7 +63,8 @@ public class SettingsCategoryFragment extends PreferenceFragmentCompat implement
     public static final String TAG = SettingsCategoryFragment.class.getSimpleName();
 
     public interface SettingsCallback {
-        @SettingsModel.SettingsType int getSettingsType();
+        @SettingsModel.SettingsType
+        int getSettingsType();
     }
 
     private static int PERMISSION_REQUEST_CODE = 128;
@@ -76,7 +82,8 @@ public class SettingsCategoryFragment extends PreferenceFragmentCompat implement
     private SettingsCallback settingsCallback;
     private CompositeDisposable disposable = new CompositeDisposable();
 
-    @Override public void onAttach(Context context) {
+    @Override
+    public void onAttach(Context context) {
         super.onAttach(context);
         this.callback = (BaseMvp.FAView) context;
         this.settingsCallback = (SettingsCallback) context;
@@ -84,17 +91,20 @@ public class SettingsCategoryFragment extends PreferenceFragmentCompat implement
         appLanguage = PrefHelper.getString("app_language");
     }
 
-    @Override public void onDetach() {
+    @Override
+    public void onDetach() {
         callback = null;
         settingsCallback = null;
         super.onDetach();
     }
 
-    @Override public void onCreate(Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    @Override public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         switch (settingsCallback.getSettingsType()) {
             case SettingsModel.BACKUP:
                 addBackup();
@@ -108,12 +118,16 @@ public class SettingsCategoryFragment extends PreferenceFragmentCompat implement
             case SettingsModel.NOTIFICATION:
                 addNotifications();
                 break;
+            case SettingsModel.FASTGIT:
+                addFastGit();
+                break;
             default:
                 Toast.makeText(App.getInstance(), "You reached the impossible :'(", Toast.LENGTH_SHORT).show();
         }
     }
 
-    @Override public boolean onPreferenceChange(Preference preference, Object newValue) {
+    @Override
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
         if (preference.getKey().equalsIgnoreCase("notificationEnabled")) {
             if ((boolean) newValue) {
                 getPreferenceScreen().addPreference(notificationTime);
@@ -155,7 +169,8 @@ public class SettingsCategoryFragment extends PreferenceFragmentCompat implement
         return false;
     }
 
-    @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_CODE) {
             if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
@@ -197,7 +212,8 @@ public class SettingsCategoryFragment extends PreferenceFragmentCompat implement
 
     }
 
-    @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == RESTORE_REQUEST_CODE) {
                 restoreData(data);
@@ -210,18 +226,21 @@ public class SettingsCategoryFragment extends PreferenceFragmentCompat implement
         }
     }
 
-    @Override public void onSoundSelected(Uri uri) {
+    @Override
+    public void onSoundSelected(Uri uri) {
         PrefGetter.setNotificationSound(uri);
         if (notificationSoundPath != null && notificationSoundPath.isVisible())
             notificationSoundPath.setSummary(FileHelper.getRingtoneName(getContext(), uri));
     }
 
-    @Override public void onDestroyView() {
+    @Override
+    public void onDestroyView() {
         disposable.clear();
         super.onDestroyView();
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         disposable.clear();
         super.onDestroy();
     }
@@ -328,6 +347,48 @@ public class SettingsCategoryFragment extends PreferenceFragmentCompat implement
         }
     }
 
+    private void addFastGit() {
+        addPreferencesFromResource(R.xml.fastgit_settings);
+        Preference preferenceSniproxyDnsAddress = findPreference("fastgitSniproxyDnsAddress");
+        Preference preferenceSniproxyIpPool = findPreference("fastgitSniproxyIpPool");
+        Preference preferenceProxyMode = findPreference("fastgitProxyMode");
+
+        preferenceProxyMode.setOnPreferenceChangeListener((preference, newValue) -> {
+            switch (((String) newValue)) {
+                default:
+                case "0":
+                    preferenceSniproxyDnsAddress.setVisible(false);
+                    preferenceSniproxyIpPool.setVisible(false);
+                    break;
+                case "1":
+                    preferenceSniproxyDnsAddress.setVisible(true);
+                    preferenceSniproxyIpPool.setVisible(false);
+                    break;
+                case "2":
+                    preferenceSniproxyDnsAddress.setVisible(false);
+                    preferenceSniproxyIpPool.setVisible(true);
+                    break;
+            }
+            return true;
+        });
+        String mode = PrefGetter.getFastGitProxyMode();
+        switch (mode == null ? "0" : mode) {
+            default:
+            case "0":
+                preferenceSniproxyDnsAddress.setVisible(false);
+                preferenceSniproxyIpPool.setVisible(false);
+                break;
+            case "1":
+                preferenceSniproxyDnsAddress.setVisible(true);
+                preferenceSniproxyIpPool.setVisible(false);
+                break;
+            case "2":
+                preferenceSniproxyDnsAddress.setVisible(false);
+                preferenceSniproxyIpPool.setVisible(true);
+                break;
+        }
+    }
+
     private void restoreData(Intent data) {
         StringBuilder json = new StringBuilder();
         try {
@@ -347,7 +408,8 @@ public class SettingsCategoryFragment extends PreferenceFragmentCompat implement
         if (!InputHelper.isEmpty(json)) {
             try {
                 Gson gson = new Gson();
-                Type typeOfHashMap = new TypeToken<Map<String, ?>>() {}.getType();
+                Type typeOfHashMap = new TypeToken<Map<String, ?>>() {
+                }.getType();
                 Map<String, ?> savedPref = gson.fromJson(json.toString(), typeOfHashMap);
                 if (savedPref != null && !savedPref.isEmpty()) {
                     for (Map.Entry<String, ?> stringEntry : savedPref.entrySet()) {

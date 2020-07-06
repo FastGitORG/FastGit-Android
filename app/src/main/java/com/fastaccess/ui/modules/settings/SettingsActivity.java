@@ -62,6 +62,7 @@ public class SettingsActivity extends BaseActivity implements LanguageBottomShee
         settings.add(new SettingsModel(R.drawable.ic_settings, getString(R.string.behavior), SettingsModel.BEHAVIOR));
         settings.add(new SettingsModel(R.drawable.ic_backup, getString(R.string.backup), SettingsModel.BACKUP));
         settings.add(new SettingsModel(R.drawable.ic_language, getString(R.string.app_language), SettingsModel.LANGUAGE));
+        settings.add(new SettingsModel(R.drawable.ic_fastgit_cloud, getString(R.string.fastgit_settings), SettingsModel.FASTGIT));
         settingsList.setAdapter(new SettingsAdapter(this, settings));
         settingsList.setOnItemClickListener((parent, view, position, id) -> {
             SettingsModel settingsModel = (SettingsModel) parent.getItemAtPosition(position);

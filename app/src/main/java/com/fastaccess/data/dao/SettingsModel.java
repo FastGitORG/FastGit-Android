@@ -23,6 +23,7 @@ import lombok.Setter;
     public static final int BACKUP = 4;
     public static final int LANGUAGE = 5;
     public static final int CODE_THEME = 6;
+    public static final int FASTGIT = 7;
 
     @IntDef({
             THEME,
@@ -31,7 +32,8 @@ import lombok.Setter;
             BEHAVIOR,
             BACKUP,
             LANGUAGE,
-            CODE_THEME
+            CODE_THEME,
+            FASTGIT,
     })
     @Retention(RetentionPolicy.SOURCE) public @interface SettingsType {}
 

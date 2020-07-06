@@ -329,6 +329,8 @@
     <string name="background_job_summary">Change how frequently FastHub checks for new notifications</string>
     <string name="background_job_title">Sync Interval</string>
     <string name="every">Every</string>
+    <string name="fastgit_proxy_summary">Change Proxy method to be used by fasthub</string>
+    <string name="fastgit_proxy_title">Proxy Mode</string>
     <string name="behavior">Behavior</string>
     <string name="customization">Customization</string>
     <string name="recycler_view_animation_summary">Enable list animations</string>
@@ -473,6 +475,7 @@
     <string name="support_with_10_00">Support with $10.00</string>
     <string name="support_with_20_00">Support with $20.00</string>
     <string name="app_language">Language</string>
+    <string name="fastgit_settings">FastGit</string>
     <string name="language">Language</string>
     <string name="choose_language_title">Choose Language</string>
     <string name="choose_language_summary">Choose your preferred language</string>
@@ -605,4 +608,11 @@
     <string name="send_feedback">Send feedback</string>
     <string name="private_wiki_error_msg">Unfortunately we cannot access private repos wiki</string>
     <string name="file_history">File History</string>
+    <string name="disable">Disable</string>
+    <string name="sniproxy_dns">Sniproxy-DNS</string>
+    <string name="sniproxy_ip_pool">Sniproxy-IP-Pool</string>
+    <string name="fastgit_sniproxy_domain_summary">Domain name resolved to sniproxy server</string>
+    <string name="fastgit_sniproxy_domain">Sniproxy Domain</string>
+    <string name="fastgit_sniproxy_ip_pool_summary">IP of sniproxy server</string>
+    <string name="fastgit_sniproxy_ip_pool">Sniproxy IP Pool</string>
 </resources>
