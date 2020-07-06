@@ -14,11 +14,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.lang.reflect.Modifier;
+import com.fastaccess.provider.rest.resolvers.FastGitDns;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import tech.linjiang.pandora.Pandora;
 
 /**
  * Created by Kosh on 08 Feb 2017, 8:37 PM
@@ -39,7 +41,9 @@ public class LoginProvider {
             client.addInterceptor(new HttpLoggingInterceptor()
                     .setLevel(HttpLoggingInterceptor.Level.BODY));
         }
+        client.dns(new FastGitDns());
         client.addInterceptor(new AuthenticationInterceptor(authToken, otp));
+        client.addInterceptor(Pandora.get().getInterceptor());
         return client.build();
     }
 
