@@ -11,7 +11,7 @@ class FastGitDns : Dns {
     private val TAG = "FastGitDns"
 
     fun needProxy(hostname: String): Boolean {
-        if (hostname.equals("raw.githubusercontent.com")
+        if (hostname.endsWith(".githubusercontent.com")
                 || hostname.equals("github.com")
                 || hostname.equals("github.githubassets.com")
                 || hostname.equals("customer-stories-feed.github.com")
