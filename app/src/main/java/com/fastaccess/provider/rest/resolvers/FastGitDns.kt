@@ -16,6 +16,9 @@ class FastGitDns : Dns {
                 || hostname.equals("github.githubassets.com")
                 || hostname.equals("customer-stories-feed.github.com")
                 || hostname.equals("codeload.github.com")
+                || hostname.equals("api.github.com")
+                || hostname.equals("gist.github.com")
+                || hostname.equals("gist.githubusercontent.com")
         ) {
             return true
         }
