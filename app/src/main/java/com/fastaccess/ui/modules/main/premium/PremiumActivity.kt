@@ -175,11 +175,7 @@ class PremiumActivity : BaseActivity<PremiumMvp.View, PremiumPresenter>(), Premi
     }
 
     private fun isGoogleSupported(): Boolean {
-        if (AppHelper.isGoogleAvailable(this)) {
-            return true
-        }
-        showErrorMessage(getString(R.string.google_play_service_error))
-        return false
+        return true
     }
 
     companion object {

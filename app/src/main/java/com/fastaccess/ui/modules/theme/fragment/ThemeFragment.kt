@@ -152,11 +152,7 @@ class ThemeFragment : BaseFragment<ThemeFragmentMvp.View, ThemeFragmentPresenter
     private fun isPremiumTheme(): Boolean = theme != R.style.ThemeLight && theme != R.style.ThemeDark
 
     private fun isGoogleSupported(): Boolean {
-        if (AppHelper.isGoogleAvailable(context!!)) {
-            return true
-        }
-        showErrorMessage(getString(R.string.common_google_play_services_unsupported_text))
-        return false
+        return true
     }
 
     override fun onDestroyView() {
